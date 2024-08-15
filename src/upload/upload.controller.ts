@@ -1,4 +1,4 @@
-import { Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
 
@@ -18,4 +18,10 @@ export class UploadController {
     ) file: Express.Multer.File) {
         await this.uploadServise.upload(file.originalname, file.buffer)
     }
+
+    @Get('getlistbuckets')
+    async getInfo() {
+        return await this.uploadServise.getListBuckets() 
+    }
+
 }

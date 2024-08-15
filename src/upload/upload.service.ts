@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
+import {ListBucketsCommand, PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 
 @Injectable()
 export class UploadService {
@@ -13,9 +13,10 @@ export class UploadService {
             // accessKeyId: 'e53836de959a451b9426644d1e362d52',
             // secretAccessKey: 'b016b28568184d63b07c32b721cf394b',
           },
-        endpoint:"https://s3.storage.selcloud.ru",
-        region: "ru-1",
-        apiVersion: 'latest'
+        // endpoint:"https://s3.storage.selcloud.ru",
+        endpoint:"https://s3.ru-1.storage.selcloud.ru",
+        region: "ru-1", 
+        apiVersion: 'latest' 
     })
  
     async upload(fileName: string, file: Buffer) {
@@ -27,6 +28,16 @@ export class UploadService {
             })
         )
     }
-}
 
+    async getListBuckets() {
+        const listBuckets = await this.s3Client.send(
+             new ListBucketsCommand({
+                Bucket: "firstanapa",
+                Key: "flowers_1.jpeg",
+                Body: "Test"
+            })
+        )
+        return listBuckets
+    }
+}
 
